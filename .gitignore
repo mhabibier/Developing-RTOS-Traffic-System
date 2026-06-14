@@ -1,0 +1,16 @@
+# PlatformIO build output (binary besar, tidak perlu di-commit)
+.pio/
+
+# VS Code settings (opsional: hapus jika ingin share settings tim)
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Python cache (dari PlatformIO scripts)
+__pycache__/
+*.pyc

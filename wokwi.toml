@@ -1,0 +1,49 @@
+# ============================================================
+# wokwi.toml — Konfigurasi Wokwi Simulator untuk VS Code
+# Adaptive Smart Traffic Light (ESP32 + FreeRTOS)
+# ============================================================
+# Cara pakai:
+#   1. Install ekstensi "Wokwi" di VS Code
+#   2. Build project dulu: Ctrl+Shift+P -> "PlatformIO: Build"
+#   3. Tekan F1 -> "Wokwi: Start Simulator"
+#
+# Wokwi membutuhkan tiga file firmware ESP32:
+#   ① bootloader.bin  — bootloader ESP32 (dari IDF)
+#   ② partitions.bin  — partition table
+#   ③ firmware.bin    — aplikasi utama (output PlatformIO)
+#
+# Path di bawah sesuai output build PlatformIO dengan board esp32dev.
+# ============================================================
+
+[wokwi]
+version = 1
+
+# ── Firmware utama aplikasi ──────────────────────────────────
+firmware = ".pio/build/esp32dev/firmware.bin"
+
+# ── ELF file (untuk debugging / symbol resolution) ──────────
+elf = ".pio/build/esp32dev/firmware.elf"
+
+# ── Diagram komponen virtual ────────────────────────────────
+# File diagram.json mendefinisikan semua komponen dan koneksi.
+# Pastikan diagram.json ada di root project (sejajar wokwi.toml).
+
+# ── Catatan Partisi & Bootloader ────────────────────────────
+# Wokwi secara otomatis menggunakan bootloader & partitions
+# bawaan ESP32 jika tidak dispesifikasikan.
+# Jika menggunakan custom partition table, uncomment dan sesuaikan:
+# [wokwi.net]
+# enabled = false
+
+# ── Catatan Serial / Tracealyzer ────────────────────────────
+# Output Serial ESP32 muncul di terminal Wokwi (baud 115200).
+# Untuk streaming Tracealyzer:
+#   - Data trace keluar via Serial pada baud 115200
+#   - Hubungkan Tracealyzer desktop ke COM port Wokwi virtual
+#     (di Windows: cari port yang muncul saat simulator berjalan)
+#   - Atau gunakan pipe: Wokwi CLI + Tracealyzer streaming recorder
+
+# ── Catatan Dual-Core ────────────────────────────────────────
+# Wokwi mensimulasikan ESP32 dual-core (Xtensa LX6 PRO + APP core).
+# Namun penjadwalan multicore di Wokwi bersifat deterministik/serial
+# (tidak parallel sejati). Verifikasi timing WCET harus di hardware asli.
