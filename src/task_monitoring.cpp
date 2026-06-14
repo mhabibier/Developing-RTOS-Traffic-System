@@ -158,8 +158,8 @@ void TaskMonitoring(void *pvParameters) {
         bool gotData = false;
 
         if (xSemaphoreTake(monitorMutex, pdMS_TO_TICKS(20)) == pdTRUE) {
-            /* Copy atomik (di bawah mutex) */
-            snapshot = (MonitoringData)gMonitoringData; /* struct copy */
+            /* Copy atomik (di bawah mutex) — gunakan memcpy karena gMonitoringData volatile */
+            memcpy(&snapshot, (const void*)&gMonitoringData, sizeof(MonitoringData));
             snapshot.updateCount = cycleCount;
             xSemaphoreGive(monitorMutex);
             gotData = true;
